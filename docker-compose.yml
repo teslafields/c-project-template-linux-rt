@@ -1,0 +1,12 @@
+services:
+  controloop:
+    build: .
+    image: controloop-build:latest
+    volumes:
+      - .:/app
+    working_dir: "/app"
+    command:
+      - bash
+    cap_add:
+      - SYS_NICE
+      - IPC_LOCK

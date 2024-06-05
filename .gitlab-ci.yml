@@ -1,0 +1,32 @@
+variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
+default:
+  image: registry.satcube.com/satcube-linux-rt-builder:latest
+  before_script:
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@".insteadOf "ssh://git@"
+  tags:
+    - scrooge-docker-runner
+
+stages:
+  - build
+  - test
+
+unit tests:
+  stage: test
+  script:
+    - cd build/
+    - sudo ctest -V
+
+build native:
+  stage: build
+  script:
+    - ./build.sh
+  artifacts:
+    paths:
+      - build
+
+build target:
+  stage: build
+  script:
+    - echo "Build target"
